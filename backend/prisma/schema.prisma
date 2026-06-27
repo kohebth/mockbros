@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  sessions InterviewSession[]
+
+  @@map("users")
+}
+
+model InterviewTemplate {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  targetRole  String   @map("target_role")
+  difficulty  String
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  questions InterviewQuestion[]
+  sessions  InterviewSession[]
+
+  @@map("interview_templates")
+}
+
+model InterviewQuestion {
+  id                      String   @id @default(uuid())
+  templateId              String   @map("template_id")
+  questionOrder           Int      @map("question_order")
+  questionText            String   @map("question_text")
+  rubricHint              String?  @map("rubric_hint")
+  expectedDurationSeconds Int      @default(120) @map("expected_duration_seconds")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  template InterviewTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  answers  InterviewAnswer[]
+
+  @@map("interview_questions")
+}
+
+enum SessionStatus {
+  created
+  in_progress
+  submitted
+  completed
+  failed
+}
+
+model InterviewSession {
+  id          String        @id @default(uuid())
+  userId      String        @map("user_id")
+  templateId  String        @map("template_id")
+  status      SessionStatus @default(created)
+  startedAt   DateTime?     @map("started_at")
+  submittedAt DateTime?     @map("submitted_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  user     User              @relation(fields: [userId], references: [id])
+  template InterviewTemplate @relation(fields: [templateId], references: [id])
+  answers  InterviewAnswer[]
+  feedback FeedbackReport?
+
+  @@map("interview_sessions")
+}
+
+model InterviewAnswer {
+  id         String    @id @default(uuid())
+  sessionId  String    @map("session_id")
+  questionId String    @map("question_id")
+  answerText String    @map("answer_text")
+  answeredAt DateTime? @map("answered_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  session  InterviewSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question InterviewQuestion @relation(fields: [questionId], references: [id])
+
+  @@unique([sessionId, questionId])
+  @@map("interview_answers")
+}
+
+model FeedbackReport {
+  id                  String   @id @default(uuid())
+  sessionId           String   @unique @map("session_id")
+  overallScore        Float    @map("overall_score")
+  readinessLevel      String   @map("readiness_level")
+  summary             String
+  strengthsJson       Json     @map("strengths_json")
+  weaknessesJson      Json     @map("weaknesses_json")
+  recommendationsJson Json     @map("recommendations_json")
+  perQuestionJson     Json     @map("per_question_json")
+  rawAiJson           Json     @map("raw_ai_json")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  session InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("feedback_reports")
+}
