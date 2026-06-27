@@ -23,8 +23,9 @@ services:
       PORT: 3001
       DATABASE_URL: postgresql://mockbros:mockbros@postgres:5432/mockbros
       JWT_SECRET: dev-secret-change-later
-      AI_PROVIDER: mock
+      AI_PROVIDER: ${AI_PROVIDER:-openai}
       AI_SERVICE_URL: http://host.docker.internal:4000
+      OPENAI_KEY: ${OPENAI_KEY:-}
       STT_PROVIDER: mock
       STT_SERVICE_URL: http://host.docker.internal:4100
     ports:
@@ -40,6 +41,19 @@ services:
       interval: 10s
       timeout: 3s
       retries: 10
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5174:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes:
   mockbros-postgres:

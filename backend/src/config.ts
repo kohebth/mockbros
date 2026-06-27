@@ -6,8 +6,9 @@ const ConfigSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.string().url(),
   JWT_SECRET: z.string().min(8).default("dev-secret-change-later"),
-  AI_PROVIDER: z.enum(["mock", "http"]).default("mock"),
+  AI_PROVIDER: z.enum(["mock", "http", "openai"]).default("mock"),
   AI_SERVICE_URL: z.string().url().default("http://localhost:4000"),
+  OPENAI_KEY: z.string().optional(),
   STT_PROVIDER: z.enum(["mock", "http"]).default("mock"),
   STT_SERVICE_URL: z.string().url().default("http://localhost:4100")
 });
