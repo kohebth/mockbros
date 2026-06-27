@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mockbros
+      POSTGRES_PASSWORD: mockbros
+      POSTGRES_DB: mockbros
+    ports:
+      - "5432:5432"
+    volumes:
+      - mockbros-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockbros -d mockbros"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://mockbros:mockbros@postgres:5432/mockbros
+      JWT_SECRET: dev-secret-change-later
+      AI_PROVIDER: mock
+      AI_SERVICE_URL: http://host.docker.internal:4000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mockbros-postgres:
