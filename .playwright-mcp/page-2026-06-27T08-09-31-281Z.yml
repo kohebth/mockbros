@@ -1,0 +1,58 @@
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - link "Mockbros home" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]: M
+      - generic [ref=e7]: Mockbros
+    - navigation "Main navigation" [ref=e8]:
+      - link "Templates" [ref=e9] [cursor=pointer]:
+        - /url: "#interviews"
+      - link "Live Practice" [ref=e10] [cursor=pointer]:
+        - /url: "#practice"
+      - link "Report" [ref=e11] [cursor=pointer]:
+        - /url: "#report"
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - text: Live AI mock interview
+      - heading "Practice interviews before the real one." [level=1] [ref=e17]
+      - paragraph [ref=e18]: Choose a track, answer live questions by text or microphone, and get backend-generated feedback from the Mockbros interview API.
+      - generic [ref=e19]:
+        - link "Choose interview" [ref=e20] [cursor=pointer]:
+          - /url: "#interviews"
+          - text: Choose interview
+          - img [ref=e21]
+        - generic [ref=e23]: Loading interview templates...
+    - generic "Live interview panel" [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: Live demo flow
+        - generic [ref=e27]: Backend connected
+      - generic [ref=e28]:
+        - img [ref=e29]
+        - text: Loading backend templates...
+  - generic [ref=e32]:
+    - generic [ref=e33]: Choose a track
+    - heading "Interview templates" [level=2] [ref=e34]
+  - generic [ref=e35]:
+    - generic [ref=e36]:
+      - generic [ref=e37]: Feedback report
+      - heading "Feedback appears after the live interview." [level=2] [ref=e38]
+      - paragraph [ref=e39]: "The report turns practice answers into concrete coaching: score, readiness, strengths, weak points, and better answer examples."
+      - list [ref=e40]:
+        - listitem [ref=e41]:
+          - img [ref=e42]
+          - text: Answer all live questions.
+        - listitem [ref=e45]:
+          - img [ref=e46]
+          - text: Submit by text or microphone.
+        - listitem [ref=e49]:
+          - img [ref=e50]
+          - text: Review backend-generated feedback.
+    - generic [ref=e53]:
+      - generic [ref=e54]:
+        - img [ref=e55]
+        - generic [ref=e57]: Overall score
+      - strong [ref=e58]: "--"
+      - generic [ref=e59]: Waiting
+      - paragraph [ref=e60]: Complete a live interview to generate a report from the backend.

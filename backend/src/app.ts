@@ -5,6 +5,8 @@ import morgan from "morgan";
 import { ZodError } from "zod";
 import { config } from "./config.js";
 import { pool } from "./db/client.js";
+import { createAssessmentRoutes } from "./modules/assessments/assessmentRoutes.js";
+import { createContentRoutes } from "./modules/content/contentRoutes.js";
 import { createInterviewRoutes } from "./modules/interviews/interviewRoutes.js";
 import { HttpError } from "./shared/errors.js";
 
@@ -28,6 +30,8 @@ export function createApp() {
     }
   });
 
+  app.use(createContentRoutes());
+  app.use(createAssessmentRoutes());
   app.use(createInterviewRoutes());
 
   app.use((_req, res) => {

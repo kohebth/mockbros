@@ -86,3 +86,42 @@ POST /evaluate-interview
 ```
 
 See `src/providers/ai/types.ts` for the exact input and output contract.
+
+
+## Live Interactive Interview
+
+Create and start an interview through REST, then connect a WebSocket client:
+
+```text
+ws://localhost:3000/interviews/:id/live
+```
+
+The socket supports two demo modes:
+
+1. Browser/client speech recognition sends `answer_partial` and `answer_final` text.
+2. Browser records audio and sends `audio_final` with base64 audio for backend STT.
+
+Default STT mode is mock:
+
+```env
+STT_PROVIDER=mock
+```
+
+Optional HTTP STT service:
+
+```env
+STT_PROVIDER=http
+STT_SERVICE_URL=http://localhost:4100
+```
+
+The HTTP STT service must expose:
+
+```http
+POST /transcribe
+```
+
+Run the live smoke test with the API running:
+
+```bash
+npm run smoke:live
+```

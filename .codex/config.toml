@@ -1,0 +1,15 @@
+# Project-scoped Codex config for Mockbros.
+# Restart Codex after changing MCP servers so the client reloads this file.
+
+[mcp_servers.sequential-thinking]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+
+[mcp_servers.memory]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-memory"]
+env = { MEMORY_FILE_PATH = "/home/duync/mcp/server-memory/memory.jsonl" }
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]

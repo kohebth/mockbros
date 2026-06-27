@@ -106,7 +106,6 @@ async function seed() {
     );
 
     const templateId = result.rows[0].id;
-    await pool.query("DELETE FROM interview_questions WHERE template_id = $1", [templateId]);
 
     for (const [index, question] of template.questions.entries()) {
       await pool.query(
@@ -119,6 +118,12 @@ async function seed() {
             expected_duration_seconds
           )
           VALUES ($1, $2, $3, $4, $5)
+          ON CONFLICT (template_id, question_order)
+          DO UPDATE SET
+            question_text = EXCLUDED.question_text,
+            rubric_hint = EXCLUDED.rubric_hint,
+            expected_duration_seconds = EXCLUDED.expected_duration_seconds,
+            updated_at = now()
         `,
         [templateId, index + 1, question.text, question.rubric, 120]
       );

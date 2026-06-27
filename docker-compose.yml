@@ -25,6 +25,8 @@ services:
       JWT_SECRET: dev-secret-change-later
       AI_PROVIDER: mock
       AI_SERVICE_URL: http://host.docker.internal:4000
+      STT_PROVIDER: mock
+      STT_SERVICE_URL: http://host.docker.internal:4100
     ports:
       - "3000:3000"
     volumes:

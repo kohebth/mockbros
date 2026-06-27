@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mockbros Live Audio Smoke</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <div>
+          <p class="eyebrow">Mockbros smoke</p>
+          <h1>Live audio test</h1>
+        </div>
+
+        <label class="field">
+          <span>Backend URL</span>
+          <input data-testid="backend-url" id="backendUrl" autocomplete="off" />
+        </label>
+
+        <div class="actions">
+          <button data-testid="start-session" id="startSession" type="button">Start session</button>
+          <button data-testid="record-answer" id="recordAnswer" type="button" disabled>Record answer</button>
+        </div>
+
+        <div class="status-grid">
+          <output data-testid="connection-status" id="connectionStatus">Idle</output>
+          <output data-testid="question-status" id="questionStatus">No question loaded</output>
+          <output data-testid="audio-status" id="audioStatus">Microphone not requested</output>
+          <output data-testid="result-status" id="resultStatus">Waiting</output>
+        </div>
+      </section>
+
+      <section class="question">
+        <p class="eyebrow">Current question</p>
+        <h2 data-testid="question-text" id="questionText">Start a session to load the first live interview question.</h2>
+      </section>
+
+      <section class="events">
+        <div class="events-header">
+          <p class="eyebrow">Events</p>
+          <button data-testid="clear-events" id="clearEvents" type="button">Clear</button>
+        </div>
+        <ol data-testid="event-log" id="eventLog"></ol>
+      </section>
+    </main>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

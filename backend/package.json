@@ -10,7 +10,10 @@
     "migrate": "tsx src/db/migrate.ts",
     "seed": "tsx src/db/seed.ts",
     "reset": "tsx src/db/reset.ts",
-    "smoke": "bash scripts/smoke.sh"
+    "smoke": "bash scripts/smoke.sh",
+    "smoke:live": "tsx scripts/live-smoke.ts",
+    "smoke:audio": "tsx scripts/audio-smoke.ts",
+    "import:xlsx": "tsx src/db/importProductBuildSheet.ts \"../Mock Bros - Product Build Sheet.xlsx\""
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -19,7 +22,9 @@
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.13.1",
-    "zod": "^3.24.1"
+    "ws": "^8.18.0",
+    "zod": "^3.24.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -27,6 +32,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.0",
     "@types/pg": "^8.11.10",
+    "@types/ws": "^8.5.13",
     "tsx": "^4.19.2",
     "typescript": "^5.8.0"
   }

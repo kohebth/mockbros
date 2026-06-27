@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "type": "local",
+      "enabled": true
+    },
+    "memory": {
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "type": "local",
+      "enabled": true,
+      "env": {
+        "MEMORY_FILE_PATH": "/home/duync/mcp/server-memory/memory.jsonl"
+      }
+    },
+    "playwright": {
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "type": "local",
+      "enabled": true
+    }
+  }
+}

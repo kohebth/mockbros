@@ -335,6 +335,89 @@ export class InterviewService {
     }
   }
 
+  async getLiveSession(sessionId: string) {
+    const result = await pool.query(
+      `
+        SELECT
+          s.id,
+          s.status,
+          s.started_at,
+          t.id AS template_id,
+          t.title,
+          t.target_role,
+          t.difficulty
+        FROM interview_sessions s
+        JOIN interview_templates t ON t.id = s.template_id
+        WHERE s.id = $1
+      `,
+      [sessionId]
+    );
+
+    if (!result.rowCount) {
+      throw notFound("Interview session not found");
+    }
+
+    const questions = await pool.query(
+      `
+        SELECT id, question_order, question_text, rubric_hint, expected_duration_seconds
+        FROM interview_questions
+        WHERE template_id = $1
+        ORDER BY question_order ASC
+      `,
+      [result.rows[0].template_id]
+    );
+
+    const answers = await pool.query(
+      `
+        SELECT question_id, answer_text, answered_at
+        FROM interview_answers
+        WHERE session_id = $1
+      `,
+      [sessionId]
+    );
+
+    return {
+      session: {
+        id: result.rows[0].id,
+        status: result.rows[0].status,
+        startedAt: result.rows[0].started_at,
+        template: {
+          id: result.rows[0].template_id,
+          title: result.rows[0].title,
+          targetRole: result.rows[0].target_role,
+          difficulty: result.rows[0].difficulty
+        }
+      },
+      questions: questions.rows.map(toQuestion),
+      answers: answers.rows.map((row) => ({
+        questionId: row.question_id,
+        answerText: row.answer_text,
+        answeredAt: row.answered_at
+      }))
+    };
+  }
+
+  async saveLiveAnswer(sessionId: string, questionId: string, answerText: string) {
+    return this.saveAnswers(sessionId, {
+      answers: [
+        {
+          questionId,
+          answerText
+        }
+      ]
+    });
+  }
+
+  async logLiveEvent(sessionId: string, eventType: string, payload: unknown, questionId?: string) {
+    await pool.query(
+      `
+        INSERT INTO live_interview_events (session_id, question_id, event_type, payload)
+        VALUES ($1, $2, $3, $4)
+      `,
+      [sessionId, questionId ?? null, eventType, JSON.stringify(payload ?? {})]
+    );
+  }
+
   async getFeedback(sessionId: string) {
     const result = await pool.query(
       `

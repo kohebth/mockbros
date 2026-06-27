@@ -7,7 +7,9 @@ const ConfigSchema = z.object({
   DATABASE_URL: z.string().url(),
   JWT_SECRET: z.string().min(8).default("dev-secret-change-later"),
   AI_PROVIDER: z.enum(["mock", "http"]).default("mock"),
-  AI_SERVICE_URL: z.string().url().default("http://localhost:4000")
+  AI_SERVICE_URL: z.string().url().default("http://localhost:4000"),
+  STT_PROVIDER: z.enum(["mock", "http"]).default("mock"),
+  STT_SERVICE_URL: z.string().url().default("http://localhost:4100")
 });
 
 export const config = ConfigSchema.parse(process.env);
