@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { path: "/mock-interview", label: "Phỏng vấn thử" },
   { path: "/faq", label: "FAQ" },
   { path: "/cv", label: "CV của bạn" },
+  { path: "/login", label: "Đăng nhập" },
 ];
 
 export function HeaderNav() {

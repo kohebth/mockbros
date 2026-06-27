@@ -10,6 +10,7 @@ import { ProfessionalTestPage } from "./pages/ProfessionalTestPage";
 import { AIInterviewPage } from "./pages/AIInterviewPage";
 import { FAQPage } from "./pages/FAQPage";
 import { CVAnalyzerPage } from "./pages/CVAnalyzerPage";
+import { LoginRolePage } from "./pages/LoginRolePage";
 
 export function App() {
   return (
@@ -26,6 +27,7 @@ export function App() {
           <Route path="/mock-interview/ai" element={<AIInterviewPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/cv" element={<CVAnalyzerPage />} />
+          <Route path="/login" element={<LoginRolePage />} />
         </Routes>
       </main>
       <Footer />
